@@ -4,7 +4,7 @@ Reusable opencode plugin for running one branch code review across multiple sele
 
 ## Install from npm
 
-After the package is published, add the plugin to your opencode config:
+Add the plugin to your opencode config:
 
 ```json
 {
@@ -19,7 +19,7 @@ Restart opencode after changing plugin or command configuration.
 
 ## Install from a local clone
 
-For local development before publishing, build this package and point opencode at the local plugin file:
+For local development from a clone, build this package and point opencode at the local plugin file:
 
 ```sh
 cd /absolute/path/to/opencode-multi-ai-review

@@ -33,9 +33,12 @@ describe("package docs", () => {
     expect(readme).not.toContain("curl -fsSL https://raw.githubusercontent.com/MathieuDoyon/opencode-multi-ai-review/main/commands/multi-review.md");
     expect(readme).not.toContain("cp /absolute/path/to/opencode-multi-ai-review/commands/multi-review.md");
     expect(readme).toContain("Command registration is automatic");
+    expect(readme).toContain("Add the plugin to your opencode config:");
     expect(readme).toContain("src/command.ts");
     expect(readme).toContain("packaged readable reference");
     expect(readme).toContain(".opencode/multi-ai-review/state.json");
     expect(readme).toContain(".opencode/multi-ai-review/.gitignore");
+    expect(readme).not.toContain("After the package is published");
+    expect(readme).not.toContain("before publishing");
   });
 });
