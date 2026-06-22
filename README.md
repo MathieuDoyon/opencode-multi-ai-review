@@ -2,9 +2,9 @@
 
 Reusable opencode plugin for running one branch code review across multiple selected models and returning one synthesized Markdown report.
 
-## Install
+## Install from npm
 
-Add the plugin to your opencode config:
+After the package is published, add the plugin to your opencode config:
 
 ```json
 {
@@ -13,11 +13,40 @@ Add the plugin to your opencode config:
 }
 ```
 
-Then copy the command template into your project or global commands directory:
+opencode installs npm plugins into its own cache, not necessarily into your project's `node_modules`. Install the command template from this repository:
 
 ```sh
 mkdir -p .opencode/commands
-cp node_modules/opencode-multi-ai-review/commands/multi-review.md .opencode/commands/multi-review.md
+curl -fsSL https://raw.githubusercontent.com/MathieuDoyon/opencode-multi-ai-review/main/commands/multi-review.md \
+  -o .opencode/commands/multi-review.md
+```
+
+Restart opencode after changing plugin or command configuration.
+
+## Install from a local clone
+
+For local development before publishing, build this package and point opencode at the local plugin file:
+
+```sh
+cd ~/Developer/opencode-multi-ai-review
+pnpm install
+pnpm build
+```
+
+Then configure the plugin with an absolute file URL:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["file:///<path to this repo>/opencode-multi-ai-review/dist/index.js"]
+}
+```
+
+From the target project where you run opencode, copy the command template from the clone:
+
+```sh
+mkdir -p .opencode/commands
+cp ~/Developer/opencode-multi-ai-review/commands/multi-review.md .opencode/commands/multi-review.md
 ```
 
 Restart opencode after changing plugin or command configuration.
