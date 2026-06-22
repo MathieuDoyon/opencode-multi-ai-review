@@ -1,4 +1,6 @@
-import type { Plugin, PluginInput, PluginOptions } from "@opencode-ai/plugin";
+import { tool, type Plugin, type PluginInput, type PluginOptions } from "@opencode-ai/plugin";
+import { registerMultiReviewCommand } from "./command.js";
+import { createReviewStateStore } from "./state.js";
 import { createMultiAiCodeReviewTool } from "./tool.js";
 import type { DiffLimits, ReviewClient, ShellRunner } from "./types.js";
 
@@ -8,10 +10,21 @@ const plugin: Plugin = async (input, options = {}) => {
   const limits = readLimits(options);
   const shell = createShellRunner(input.$, input.worktree || input.directory);
   const client = createReviewClient(input.client, input.directory);
+  const state = createReviewStateStore(input.directory);
 
   return {
+    config: async (cfg) => {
+      registerMultiReviewCommand(cfg);
+    },
     tool: {
-      multi_ai_code_review: createMultiAiCodeReviewTool({ client, shell, limits }),
+      multi_ai_code_review: createMultiAiCodeReviewTool({ client, shell, limits, state }),
+      multi_ai_code_review_last_models: tool({
+        description: "Return the last model IDs selected for multi_ai_code_review in this project.",
+        args: {},
+        async execute() {
+          return JSON.stringify({ models: await state.readLastModels() });
+        },
+      }),
     },
   };
 };

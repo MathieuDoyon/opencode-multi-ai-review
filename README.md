@@ -13,13 +13,7 @@ After the package is published, add the plugin to your opencode config:
 }
 ```
 
-opencode installs npm plugins into its own cache, not necessarily into your project's `node_modules`. Install the command template from this repository:
-
-```sh
-mkdir -p .opencode/commands
-curl -fsSL https://raw.githubusercontent.com/MathieuDoyon/opencode-multi-ai-review/main/commands/multi-review.md \
-  -o .opencode/commands/multi-review.md
-```
+Command registration is automatic. The runtime command template comes from `src/command.ts`; `commands/multi-review.md` is shipped as a packaged readable reference, so npm users do not need to copy a command file into each project.
 
 Restart opencode after changing plugin or command configuration.
 
@@ -28,7 +22,7 @@ Restart opencode after changing plugin or command configuration.
 For local development before publishing, build this package and point opencode at the local plugin file:
 
 ```sh
-cd ~/Developer/opencode-multi-ai-review
+cd /absolute/path/to/opencode-multi-ai-review
 pnpm install
 pnpm build
 ```
@@ -38,16 +32,11 @@ Then configure the plugin with an absolute file URL:
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["file:///<path to this repo>/opencode-multi-ai-review/dist/index.js"]
+  "plugin": ["file:///absolute/path/to/opencode-multi-ai-review/dist/index.js"]
 }
 ```
 
-From the target project where you run opencode, copy the command template from the clone:
-
-```sh
-mkdir -p .opencode/commands
-cp ~/Developer/opencode-multi-ai-review/commands/multi-review.md .opencode/commands/multi-review.md
-```
+Command registration is automatic for local development too. Rebuild the plugin after changing the runtime command template in `src/command.ts` or other TypeScript source. `commands/multi-review.md` is a packaged readable reference and should stay aligned with the runtime template.
 
 Restart opencode after changing plugin or command configuration.
 
@@ -59,7 +48,9 @@ Run the command in opencode:
 /multi-review
 ```
 
-The command runs `opencode models`, asks which models to use through the built-in `question` tool, then calls `multi_ai_code_review`.
+The command runs `opencode models`, offers the previous model selection from `.opencode/multi-ai-review/state.json` when available, asks which models to use through the built-in `question` tool, then calls `multi_ai_code_review`.
+
+The plugin writes `.opencode/multi-ai-review/.gitignore` next to the generated state so `state.json` stays local and is not accidentally committed.
 
 To override the auto-detected base ref:
 

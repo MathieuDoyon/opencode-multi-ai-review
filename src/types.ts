@@ -110,3 +110,8 @@ export type RunReviewInput = {
   instructions?: string;
   limits: DiffLimits;
 };
+
+export type ReviewStateStore = {
+  readLastModels(): Promise<string[]>;
+  writeLastModels(models: string[]): Promise<void>;
+};

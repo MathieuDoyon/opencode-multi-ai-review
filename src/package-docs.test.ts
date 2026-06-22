@@ -16,6 +16,9 @@ describe("package docs", () => {
     expect(command).toContain("Prefer the newest stable/full variant");
     expect(command).toContain("Advanced: choose specific model variants");
     expect(command).toContain("Never pass the advanced option label");
+    expect(command).toContain("multi_ai_code_review_last_models");
+    expect(command).toContain("Use last:");
+    expect(command).toContain("Never pass the `Use last:` label");
   });
 
   it("documents installation and command setup", () => {
@@ -24,9 +27,15 @@ describe("package docs", () => {
     expect(readme).toContain("opencode-multi-ai-review");
     expect(readme).toContain("plugin");
     expect(readme).toContain("Install from npm");
-    expect(readme).toContain("raw.githubusercontent.com/MathieuDoyon/opencode-multi-ai-review/main/commands/multi-review.md");
     expect(readme).toContain("Install from a local clone");
-    expect(readme).toContain("cp ~/Developer/opencode-multi-ai-review/commands/multi-review.md .opencode/commands/multi-review.md");
     expect(readme).toContain("commands/multi-review.md");
+    expect(readme).not.toContain("~/Developer/opencode-multi-ai-review");
+    expect(readme).not.toContain("curl -fsSL https://raw.githubusercontent.com/MathieuDoyon/opencode-multi-ai-review/main/commands/multi-review.md");
+    expect(readme).not.toContain("cp /absolute/path/to/opencode-multi-ai-review/commands/multi-review.md");
+    expect(readme).toContain("Command registration is automatic");
+    expect(readme).toContain("src/command.ts");
+    expect(readme).toContain("packaged readable reference");
+    expect(readme).toContain(".opencode/multi-ai-review/state.json");
+    expect(readme).toContain(".opencode/multi-ai-review/.gitignore");
   });
 });

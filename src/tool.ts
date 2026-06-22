@@ -1,6 +1,6 @@
 import { tool, type ToolDefinition } from "@opencode-ai/plugin";
 import { runMultiAiReview } from "./review.js";
-import type { DiffLimits, ReviewClient, RunReviewInput, ShellRunner } from "./types.js";
+import type { DiffLimits, ReviewClient, ReviewStateStore, RunReviewInput, ShellRunner } from "./types.js";
 
 const DEFAULT_LIMITS: DiffLimits = {
   maxDiffBytes: 200_000,
@@ -13,6 +13,7 @@ type CreateToolInput = {
   shell: ShellRunner;
   limits?: Partial<DiffLimits>;
   runReview?: (input: RunReviewInput) => Promise<string>;
+  state?: ReviewStateStore;
 };
 
 export function createMultiAiCodeReviewTool(input: CreateToolInput): ToolDefinition {
@@ -31,7 +32,7 @@ export function createMultiAiCodeReviewTool(input: CreateToolInput): ToolDefinit
       instructions: tool.schema.string().optional().describe("Optional extra review focus"),
     },
     async execute(args, context) {
-      return runReview({
+      const report = await runReview({
         client: input.client,
         shell: input.shell,
         sessionID: context.sessionID,
@@ -40,6 +41,14 @@ export function createMultiAiCodeReviewTool(input: CreateToolInput): ToolDefinit
         ...(args.instructions ? { instructions: args.instructions } : {}),
         limits,
       });
+
+      try {
+        await input.state?.writeLastModels(args.models);
+      } catch {
+        // The review report is more important than non-critical preference persistence.
+      }
+
+      return report;
     },
   });
 }

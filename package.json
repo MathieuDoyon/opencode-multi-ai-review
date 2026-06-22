@@ -1,6 +1,6 @@
 {
   "name": "opencode-multi-ai-review",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Multi-model code review plugin for opencode.",
   "type": "module",
   "packageManager": "pnpm@11.7.0",
