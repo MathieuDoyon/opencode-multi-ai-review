@@ -4,7 +4,19 @@ Reusable opencode plugin for running one branch code review across multiple sele
 
 ## Install from npm
 
-Add the plugin to your opencode config:
+Install the plugin into the current project's opencode config:
+
+```sh
+opencode plugin opencode-multi-ai-review
+```
+
+To install it globally instead:
+
+```sh
+opencode plugin --global opencode-multi-ai-review
+```
+
+You can also add it manually to your opencode config:
 
 ```json
 {
