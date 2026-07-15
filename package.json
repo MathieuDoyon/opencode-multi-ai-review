@@ -1,6 +1,6 @@
 {
   "name": "opencode-multi-ai-review",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Multi-model code review plugin for opencode.",
   "type": "module",
   "packageManager": "pnpm@11.7.0",
@@ -33,6 +33,14 @@
     "multi-agent"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathieuDoyon/opencode-multi-ai-review.git"
+  },
+  "homepage": "https://github.com/MathieuDoyon/opencode-multi-ai-review#readme",
+  "bugs": {
+    "url": "https://github.com/MathieuDoyon/opencode-multi-ai-review/issues"
+  },
   "dependencies": {
     "@opencode-ai/plugin": "^1.17.8"
   },
